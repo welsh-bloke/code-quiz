@@ -105,16 +105,19 @@ function showQuestion() {
 
 function endGame() {
   questionsDiv.className = 'hide';
+  feedback.className = 'hide';
   endScreen.className = 'show';
   finalScore.textContent = `${time} seconds`
   clearInterval(interval);
   timer.textContent = time;
+  localStorage.setItem('score', time);
+  console.log(time);
+  console.log(localStorage.getItem('score'));
 }
 
 enterInitialsSubmitButton.addEventListener('click', () => {
   localStorage.setItem('initials', enterInitialsInput.value);
   window.location.href = "highscores.html";
-  console.log(localStorage.getItem('initials'));
 })
 
 // game over function when user options the final question or timer reaches 0
