@@ -36,6 +36,8 @@ const questionTitle = document.querySelector('#question-title');
 const choicesContainer = document.querySelector('#choices');
 const buttons = Array.from(choicesContainer.children);
 const finalScore = document.querySelector('#final-score');
+const enterInitialsInput = document.querySelector('#initials');
+const enterInitialsSubmitButton = document.querySelector('#submit');
 
 let time = 90;
 
@@ -108,6 +110,12 @@ function endGame() {
   clearInterval(interval);
   timer.textContent = time;
 }
+
+enterInitialsSubmitButton.addEventListener('click', () => {
+  localStorage.setItem('initials', enterInitialsInput.value);
+  window.location.href = "highscores.html";
+  console.log(localStorage.getItem('initials'));
+})
 
 // game over function when user options the final question or timer reaches 0
 // clearInterval(interval);
