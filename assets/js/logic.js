@@ -35,6 +35,7 @@ const questionsDiv = document.querySelector('#questions');
 const questionTitle = document.querySelector('#question-title');
 const choicesContainer = document.querySelector('#choices');
 const buttons = Array.from(choicesContainer.children);
+const finalScore = document.querySelector('#final-score');
 
 let time = 90;
 
@@ -103,6 +104,9 @@ function showQuestion() {
 function endGame() {
   questionsDiv.className = 'hide';
   endScreen.className = 'show';
+  finalScore.textContent = `${time} seconds`
+  clearInterval(interval);
+  timer.textContent = time;
 }
 
 // game over function when user options the final question or timer reaches 0
