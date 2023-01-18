@@ -37,18 +37,19 @@ const questions = [
   }
 ]
 
-let currentQuestionIndex = 0;
-let currentQuestion = questions[currentQuestionIndex];
-
 // ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart
 const prependZero = (num, targetLength) => {
   return num.toString().padStart(targetLength, 0);
 }
 
-// const handleAnwerChosen = (e) => {
-//   console.log(e.target.dataset.index);
+startQuizBtn.addEventListener('click', beginQuiz);
 
-// }
+function beginQuiz() {
+  interval = setInterval(countdown, 1000);
+  startScreen.className = 'hide';
+  questionsDiv.className = 'show';
+  nextQuestion();
+};
 
 const countdown = () => {
   let minutes = Math.floor(time/60);
@@ -57,32 +58,50 @@ const countdown = () => {
   time--;
 }
 
-startQuizBtn.addEventListener('click', () => {
-  interval = setInterval(countdown, 1000);
-  startScreen.className = 'hide';
-  questionsDiv.className = 'show';
+let currentQuestionIndex = 0;
+let currentQuestion = questions[currentQuestionIndex];
 
-  questionTitle.textContent = currentQuestion.title;
+function nextQuestion() {
+  showQuestion();
+}
 
-  for (let j = 0; j < buttons.length; j++) {
-    let button = buttons[j];
-    button.textContent = currentQuestion.options[j];
-    button.addEventListener('click', (e) => {
-      let answerIndex = e.target.dataset.index;
-      let chosenAnswer = e.target.dataset.index;
-      let correctAnswer = currentQuestion.correctAnswerIndex;
+function showQuestion() {
+  //for (let i = 0; i < questions.length; i++) {
+    questionTitle.textContent = questions[currentQuestionIndex].title;
 
-      feedback.className = 'show';
+    for (let j = 0; j < buttons.length; j++) {
+      let button = buttons[j];
+      button.textContent = questions[currentQuestionIndex].options[j];
+      button.addEventListener('click', (e) => {
+        let chosenAnswer = e.target.dataset.index;
+        let correctAnswer = questions[currentQuestionIndex].correctAnswerIndex;
 
-      chosenAnswer === correctAnswer ? feedback.textContent = 'Correct answer' : feedback.textContent = 'Wrong answer';
-      console.log(chosenAnswer, correctAnswer);
-    });
-  }
-})
+        let answeredCorrectly = chosenAnswer === correctAnswer;
 
-console.log(questions);
-console.log(currentQuestionIndex);
-console.log(buttons.length);
+        feedback.className = 'show';
+
+        answeredCorrectly ? feedback.textContent = 'Correct answer' : feedback.textContent = 'Wrong answer';
+
+        if (!answeredCorrectly) {
+          time -= 10;
+        }
+
+        currentQuestionIndex++;
+        nextQuestion();
+      });
+    }
+  //}
+}
+
+// startQuizBtn.addEventListener('click', () => {
+//   interval = setInterval(countdown, 1000);
+//   startScreen.className = 'hide';
+//   questionsDiv.className = 'show';
+
+//   showQuestion();
+// })
+
+
 // game over function when user options the final question or timer reaches 0
 // clearInterval(interval);
 // time variable is going to be the user's score
