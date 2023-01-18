@@ -88,6 +88,10 @@ const countdown = () => {
   let seconds = time % 60;
   timer.textContent = `${prependZero(minutes, 2)}: ${prependZero(seconds, 2)}`;
   time--;
+
+  if (time < 1) {
+    endGame();
+  }
 }
 
 function nextQuestion() {
@@ -111,11 +115,14 @@ function endGame() {
   clearInterval(interval);
   timer.textContent = time;
   localStorage.setItem('score', time);
-  console.log(time);
-  console.log(localStorage.getItem('score'));
 }
 
 enterInitialsSubmitButton.addEventListener('click', () => {
+  if (enterInitialsInput.value === '') {
+    alert('Please enter your initials');
+    return;
+  }
+
   localStorage.setItem('initials', enterInitialsInput.value);
   window.location.href = "highscores.html";
 })
