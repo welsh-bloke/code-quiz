@@ -118,17 +118,18 @@ function endGame() {
 }
 
 enterInitialsSubmitButton.addEventListener('click', () => {
-  if (enterInitialsInput.value === '') {
+  let initials = enterInitialsInput.value;
+  console.log(initials.length);
+  if (initials === '') {
     alert('Please enter your initials');
+    return;
+  }
+
+  if (initials.length > 3) {
+    alert('Your initials cannot exceet 3 characters');
     return;
   }
 
   localStorage.setItem('initials', enterInitialsInput.value);
   window.location.href = "highscores.html";
 })
-
-// game over function when user options the final question or timer reaches 0
-// clearInterval(interval);
-// time variable is going to be the user's score
-// after answering a question, inctement the currentQuestion - currentQuestion++
-// Place the question text within a button
