@@ -43,6 +43,11 @@ let time = 90;
 
 let currentQuestionIndex = 0;
 
+function play(url) {
+  var audio = new Audio(url);
+  audio.play();
+}
+
 // Event delagation
 choicesContainer.addEventListener('click', (e) => {
   if (e.target.className === 'answerButton') {
@@ -57,6 +62,9 @@ choicesContainer.addEventListener('click', (e) => {
 
       if (!answeredCorrectly) {
         time -= 10;
+        play('assets/sfx/incorrect.wav');
+      } else {
+        play('assets/sfx/correct.wav')
       }
 
       currentQuestionIndex++;
