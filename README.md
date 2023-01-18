@@ -6,7 +6,7 @@ This web app was created for the purpose of gaining experience writing advanced 
 to take a multi choice quiz. The rules of the game are:
 
 - [The user has 90 seconds to complete the quiz]
-- [Eack incorrect answer reduces the time remaining bt 10 seconds]
+- [Each incorrect answer reduces the time remaining bt 10 seconds]
 - [The users score id displsyed at the end of the quiz]
 - [The user can enter their initials to appear on a leader board of high scores]
 
