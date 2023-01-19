@@ -26,6 +26,9 @@ const questions = [
   }
 ]
 
+// fetch the users array from local storage or or create an empty array
+let users = JSON.parse(localStorage.getItem("users") || "[]");
+
 const startScreen = document.querySelector('#start-screen');
 const endScreen = document.querySelector('#end-screen');
 const timer = document.querySelector('#time');
@@ -122,7 +125,7 @@ function endGame() {
   finalScore.textContent = `${time} seconds`
   clearInterval(interval);
   timer.textContent = time;
-  localStorage.setItem('score', time);
+  //localStorage.setItem('score', time);
 }
 
 enterInitialsSubmitButton.addEventListener('click', () => {
@@ -138,6 +141,32 @@ enterInitialsSubmitButton.addEventListener('click', () => {
     return;
   }
 
-  localStorage.setItem('initials', enterInitialsInput.value);
+  users.push({initials: enterInitialsInput.value, score: time});
+  localStorage.setItem("users", JSON.stringify(users));
+
+  console.log(users);
+
+  // localStorage.setItem('initials', enterInitialsInput.value);
+  // localStorage.setItem('score', time);
   window.location.href = "highscores.html";
 })
+
+// const highScoresContainer = document.querySelector('#highscores');
+// const clearScoresButton = document.querySelector('#clear');
+// let li = document.createElement('li');
+
+// if (localStorage.getItem(users.length)) {
+//   users.forEach(user => {
+//     li.textContent = localStorage.getItem(users.initials) + ' - ' + localStorage.getItem(users.score);
+//     highScoresContainer.append(li);
+//   });
+// }
+
+// clearScoresButton.addEventListener('click', () => {
+//   if (localStorage.getItem(users.length)) {
+//     localStorage.clear();
+//     highScoresContainer.removeChild(li);
+//   }
+// })
+
+//console.log('users: ' + users[3].initials);
