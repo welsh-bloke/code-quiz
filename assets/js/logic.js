@@ -51,32 +51,34 @@ function play(url) {
   audio.play();
 }
 
+
+
 // Event delagation
 choicesContainer.addEventListener('click', (e) => {
   if (e.target.className === 'answerButton') {
     let chosenAnswer = e.target.dataset.index;
-      let correctAnswer = questions[currentQuestionIndex].correctAnswerIndex;
+    let correctAnswer = questions[currentQuestionIndex].correctAnswerIndex;
+    let answeredCorrectly = chosenAnswer === correctAnswer;
 
-      let answeredCorrectly = chosenAnswer === correctAnswer;
+    if (!answeredCorrectly) {
+      time -= 10;
+      play('assets/sfx/incorrect.wav');
+    } else {
+      play('assets/sfx/correct.wav')
+    }
 
-      feedback.className = 'show';
+    currentQuestionIndex++;
 
-      answeredCorrectly ? feedback.textContent = 'Correct answer' : feedback.textContent = 'Wrong answer';
+    feedback.className = 'show';
+    answeredCorrectly ? feedback.textContent = 'Correct answer' : feedback.textContent = 'Wrong answer';
 
-      if (!answeredCorrectly) {
-        time -= 10;
-        play('assets/sfx/incorrect.wav');
-      } else {
-        play('assets/sfx/correct.wav')
-      }
-
-      currentQuestionIndex++;
-
+    setTimeout(() => {
       if (currentQuestionIndex < questions.length) {
         nextQuestion();
       } else {
         endGame();
       }
+    }, "1000");
   }
 })
 
@@ -94,7 +96,7 @@ function beginQuiz() {
   nextQuestion();
 };
 
-const countdown = () => {
+function countdown() {
   let minutes = Math.floor(time/60);
   let seconds = time % 60;
   timer.textContent = `${prependZero(minutes, 2)}: ${prependZero(seconds, 2)}`;
@@ -106,6 +108,7 @@ const countdown = () => {
 }
 
 function nextQuestion() {
+  feedback.className = 'hide';
   showQuestion();
 }
 
@@ -125,7 +128,6 @@ function endGame() {
   finalScore.textContent = `${time} seconds`
   clearInterval(interval);
   timer.textContent = time;
-  //localStorage.setItem('score', time);
 }
 
 enterInitialsSubmitButton.addEventListener('click', () => {
@@ -145,28 +147,5 @@ enterInitialsSubmitButton.addEventListener('click', () => {
   localStorage.setItem("users", JSON.stringify(users));
 
   console.log(users);
-
-  // localStorage.setItem('initials', enterInitialsInput.value);
-  // localStorage.setItem('score', time);
   window.location.href = "highscores.html";
 })
-
-// const highScoresContainer = document.querySelector('#highscores');
-// const clearScoresButton = document.querySelector('#clear');
-// let li = document.createElement('li');
-
-// if (localStorage.getItem(users.length)) {
-//   users.forEach(user => {
-//     li.textContent = localStorage.getItem(users.initials) + ' - ' + localStorage.getItem(users.score);
-//     highScoresContainer.append(li);
-//   });
-// }
-
-// clearScoresButton.addEventListener('click', () => {
-//   if (localStorage.getItem(users.length)) {
-//     localStorage.clear();
-//     highScoresContainer.removeChild(li);
-//   }
-// })
-
-//console.log('users: ' + users[3].initials);
